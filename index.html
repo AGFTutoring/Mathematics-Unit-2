@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 2: Pure Mathematics 2 — Edexcel IAL</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root{--bg:#faf9f7;--bg-card:#fff;--bg-sidebar:#1a1a1a;--bg-sidebar-hover:#2a2a2a;--text:#1a1a1a;--text-muted:#6b6b6b;--text-sidebar:#ccc;--text-sidebar-active:#fff;--accent:#2563eb;--accent-light:#eff3ff;--border:#e5e5e5;--border-light:#f0f0f0;--tip-bg:#f0f7ff;--tip-border:#2563eb;--warn-bg:#fff8f0;--warn-border:#f59e0b;--star-bg:#f5f0ff;--star-border:#7c3aed;--quiz-bg:#f8fafc;--correct:#16a34a;--incorrect:#dc2626;--font-serif:'EB Garamond',Georgia,serif;--font-sans:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;--font-mono:'JetBrains Mono',monospace}
+  html{font-size:16px;scroll-behavior:smooth}
+  body{font-family:var(--font-sans);background:var(--bg);color:var(--text);line-height:1.7;display:flex;min-height:100vh}
+  .sidebar{position:fixed;top:0;left:0;width:280px;height:100vh;background:var(--bg-sidebar);color:var(--text-sidebar);overflow-y:auto;z-index:100;padding:2rem 0;transition:transform .3s ease}
+  .sidebar-header{padding:0 1.5rem 1.5rem;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:1.5rem}
+  .sidebar-header .unit-code{font-size:.7rem;text-transform:uppercase;letter-spacing:.15em;color:rgba(255,255,255,.4);font-family:var(--font-mono)}
+  .sidebar-header h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:500;color:#fff;line-height:1.3;margin-top:.5rem}
+  .sidebar-section-title{font-size:.65rem;text-transform:uppercase;letter-spacing:.15em;color:rgba(255,255,255,.35);padding:0 1.5rem;margin-bottom:.5rem;margin-top:1rem}
+  .sidebar a{display:block;padding:.55rem 1.5rem;color:var(--text-sidebar);text-decoration:none;font-size:.85rem;transition:all .2s;border-left:3px solid transparent}
+  .sidebar a:hover{background:var(--bg-sidebar-hover);color:var(--text-sidebar-active);border-left-color:var(--accent)}
+  .sidebar-toggle{display:none;position:fixed;top:1rem;left:1rem;z-index:200;background:var(--bg-sidebar);color:#fff;border:none;width:44px;height:44px;border-radius:8px;font-size:1.2rem;cursor:pointer}
+  .main{margin-left:280px;width:calc(100% - 280px);min-height:100vh}
+  .hero{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);color:#fff;padding:5rem 3rem 4rem;position:relative;overflow:hidden}
+  .hero::before{content:'';position:absolute;top:-50%;right:-20%;width:600px;height:600px;background:radial-gradient(circle,rgba(37,99,235,.15) 0%,transparent 70%);border-radius:50%}
+  .hero .unit-code{font-family:var(--font-mono);font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:.5rem}
+  .hero h1{font-family:var(--font-serif);font-size:2.6rem;font-weight:500;line-height:1.2;max-width:700px;margin-bottom:1.2rem}
+  .hero p{font-size:.95rem;color:rgba(255,255,255,.7);max-width:600px;line-height:1.7;margin-bottom:1.5rem}
+  .hero-meta{display:flex;gap:2rem;flex-wrap:wrap;font-size:.8rem;color:rgba(255,255,255,.5);font-family:var(--font-mono)}
+  .content{max-width:820px;margin:0 auto;padding:3rem 2rem 6rem}
+  .section{margin-bottom:5rem;scroll-margin-top:2rem}
+  .section-number{font-family:var(--font-mono);font-size:.75rem;color:var(--accent);letter-spacing:.1em;margin-bottom:.5rem}
+  .section h2{font-family:var(--font-serif);font-size:1.9rem;font-weight:500;margin-bottom:1rem;line-height:1.25}
+  .section h3{font-family:var(--font-serif);font-size:1.3rem;font-weight:600;margin:2rem 0 .75rem;color:var(--text)}
+  .section p{margin-bottom:1rem;color:#333;font-size:.93rem}
+  .section ul,.section ol{margin:.5rem 0 1rem 1.5rem;font-size:.93rem;color:#333}
+  .section li{margin-bottom:.3rem}
+  .def-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0}
+  .def-box{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:1.2rem}
+  .def-box dt{font-weight:600;font-size:.85rem;color:var(--accent);margin-bottom:.3rem}
+  .def-box dd{font-size:.88rem;color:#444;line-height:1.6}
+  .def-box.full{grid-column:1/-1}
+  .eq-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin:1.5rem 0}
+  .eq-box{background:#f8f9fa;border:1px solid var(--border-light);border-radius:8px;padding:1rem 1.2rem}
+  .eq-box .eq-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:.4rem}
+  .eq-box .eq-formula{font-family:var(--font-mono);font-size:.95rem;color:var(--text);font-weight:500}
+  .eq-box.full{grid-column:1/-1}
+  .table-wrap{overflow-x:auto;margin:1.5rem 0;border-radius:8px;border:1px solid var(--border)}
+  table{width:100%;border-collapse:collapse;font-size:.88rem}
+  thead{background:#f8f9fa}
+  th{text-align:left;padding:.75rem 1rem;font-weight:600;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text-muted);border-bottom:2px solid var(--border)}
+  td{padding:.7rem 1rem;border-bottom:1px solid var(--border-light);color:#333}
+  tr:last-child td{border-bottom:none}
+  .callout{border-radius:8px;padding:1.2rem 1.4rem;margin:1.5rem 0;font-size:.9rem;line-height:1.7;position:relative;padding-left:3rem}
+  .callout::before{position:absolute;left:1.2rem;top:1.2rem;font-size:1rem}
+  .callout.tip{background:var(--tip-bg);border-left:3px solid var(--tip-border)}.callout.tip::before{content:'💡'}
+  .callout.warn{background:var(--warn-bg);border-left:3px solid var(--warn-border)}.callout.warn::before{content:'⚠️'}
+  .callout.star{background:var(--star-bg);border-left:3px solid var(--star-border)}.callout.star::before{content:'⭐'}
+  .callout strong{font-weight:600}
+  .quiz-section{background:var(--quiz-bg);border:1px solid var(--border);border-radius:12px;padding:2rem;margin:3rem 0;scroll-margin-top:2rem}
+  .quiz-section h3{font-family:var(--font-serif);font-size:1.2rem;margin-bottom:.3rem}
+  .quiz-section .quiz-subtitle{font-size:.8rem;color:var(--text-muted);margin-bottom:1.5rem}
+  .quiz-question{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:1.2rem;margin-bottom:1rem;display:none}
+  .quiz-question.active{display:block}
+  .quiz-question p{font-size:.9rem;font-weight:500;margin-bottom:.8rem}
+  .quiz-option{display:block;width:100%;text-align:left;padding:.7rem 1rem;margin-bottom:.4rem;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer;font-size:.87rem;font-family:var(--font-sans);transition:all .2s}
+  .quiz-option:hover{border-color:var(--accent);background:var(--accent-light)}
+  .quiz-option.correct{border-color:var(--correct);background:#f0fdf4;color:var(--correct);font-weight:600}
+  .quiz-option.incorrect{border-color:var(--incorrect);background:#fef2f2;color:var(--incorrect)}
+  .quiz-option.show-correct{border-color:var(--correct);background:#f0fdf4}
+  .quiz-option:disabled{cursor:default}
+  .quiz-feedback{margin-top:.6rem;padding:.6rem .8rem;border-radius:6px;font-size:.82rem;display:none}
+  .quiz-feedback.show{display:block}
+  .quiz-feedback.correct-fb{background:#f0fdf4;color:var(--correct)}
+  .quiz-feedback.incorrect-fb{background:#fef2f2;color:var(--incorrect)}
+  .quiz-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1rem}
+  .quiz-nav button{padding:.5rem 1.2rem;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer;font-size:.82rem;font-family:var(--font-sans);transition:all .2s}
+  .quiz-nav button:hover{border-color:var(--accent);color:var(--accent)}
+  .quiz-nav .quiz-progress{font-size:.8rem;color:var(--text-muted);font-family:var(--font-mono)}
+  .quiz-score{text-align:center;padding:1.5rem;display:none}
+  .quiz-score .score-number{font-family:var(--font-serif);font-size:2.5rem;font-weight:600;color:var(--accent)}
+  .quiz-score p{color:var(--text-muted);font-size:.9rem;margin-top:.3rem}
+  .quiz-retry{margin-top:1rem;padding:.6rem 1.5rem;background:var(--accent);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:.85rem;font-family:var(--font-sans)}
+  .quiz-retry:hover{opacity:.9}
+  .section-divider{height:1px;background:var(--border);margin:4rem 0}
+  @media(max-width:900px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.sidebar-toggle{display:flex;align-items:center;justify-content:center}.main{margin-left:0;width:100%}.hero{padding:4rem 1.5rem 3rem}.hero h1{font-size:2rem}.content{padding:2rem 1.2rem 4rem}.def-grid,.eq-grid{grid-template-columns:1fr}}
+  .math{font-family:var(--font-mono);font-size:.9em}
+  sup{font-size:.7em;vertical-align:super}sub{font-size:.7em;vertical-align:sub}
+</style>
+</head>
+<body>
+
+<button class="sidebar-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')" aria-label="Toggle menu">☰</button>
+
+<nav class="sidebar">
+  <div class="sidebar-header">
+    <div class="unit-code">WMA12 · IAL</div>
+    <h2>Mathematics<br>Unit 2 Notes</h2>
+  </div>
+  <div class="sidebar-section-title">Topics</div>
+  <a href="#s1">1. Proof</a>
+  <a href="#s2">2. Algebra &amp; Functions</a>
+  <a href="#s3">3. Coordinate Geometry</a>
+  <a href="#s4">4. Sequences &amp; Series</a>
+  <a href="#s5">5. Exponentials &amp; Logarithms</a>
+  <a href="#s6">6. Trigonometry</a>
+  <a href="#s7">7. Differentiation</a>
+  <a href="#s8">8. Integration</a>
+  <div class="sidebar-section-title">Quizzes</div>
+  <a href="#q1">Quiz 1 · Proof &amp; Algebra</a>
+  <a href="#q2">Quiz 2 · Sequences &amp; Logs</a>
+  <a href="#q3">Quiz 3 · Trig &amp; Calculus</a>
+</nav>
+
+<main class="main">
+  <header class="hero">
+    <div class="unit-code">Pearson Edexcel International Advanced Level</div>
+    <h1>Unit 2: Pure Mathematics 2</h1>
+    <p>Complete revision notes covering all topic areas from the WMA12 specification. Includes proof, sequences and series, exponentials and logarithms, further trigonometry, and extended calculus with embedded quizzes.</p>
+    <div class="hero-meta">
+      <span>WMA12/01</span>
+      <span>1h 30 min</span>
+      <span>75 marks</span>
+      <span>33⅓% of IAS</span>
+      <span>Jan · Jun · Oct</span>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- SECTION 1: PROOF -->
+    <section class="section" id="s1">
+      <div class="section-number">01</div>
+      <h2>Proof</h2>
+      <p>Mathematical proof establishes that a statement is true with absolute certainty. At P2 level you must be able to use proof by deduction and proof by exhaustion, and understand disproof by counter-example.</p>
+
+      <div class="def-grid">
+        <div class="def-box">
+          <dt>Proof by Deduction</dt>
+          <dd>Start from known facts, definitions, or previously proven results and use logical steps to reach the conclusion. This is the most common form of proof at this level.</dd>
+        </div>
+        <div class="def-box">
+          <dt>Proof by Exhaustion</dt>
+          <dd>Check every possible case. Only practical when there is a finite and small number of cases to verify.</dd>
+        </div>
+        <div class="def-box">
+          <dt>Disproof by Counter-example</dt>
+          <dd>To disprove a statement, find a single example where it fails. One counter-example is sufficient to disprove a universal claim.</dd>
+        </div>
+        <div class="def-box">
+          <dt>Proof by Contradiction</dt>
+          <dd>Assume the statement is false, then show this leads to a logical contradiction. Therefore the original statement must be true (e.g. proof that √2 is irrational).</dd>
+        </div>
+      </div>
+
+      <div class="callout star"><strong>Common exam question:</strong> "Prove that the sum of two consecutive odd numbers is divisible by 4." Let the numbers be (2n − 1) and (2n + 1). Sum = 4n. Since 4n = 4 × n, the sum is divisible by 4. ∎</div>
+
+      <div class="callout tip"><strong>Exam tip:</strong> When proving algebraic identities, always work from one side only and show it equals the other. Never work on both sides simultaneously — examiners want to see a clear chain of reasoning.</div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- SECTION 2: ALGEBRA & FUNCTIONS -->
+    <section class="section" id="s2">
+      <div class="section-number">02</div>
+      <h2>Algebra &amp; Functions</h2>
+      <p>P2 extends algebraic techniques to include the factor theorem, algebraic division, and partial fractions.</p>
+
+      <h3>Factor Theorem &amp; Remainder Theorem</h3>
+      <div class="def-grid">
+        <div class="def-box">
+          <dt>Factor Theorem</dt>
+          <dd>If f(a) = 0 then (x − a) is a factor of f(x). Conversely, if (x − a) is a factor then f(a) = 0.</dd>
+        </div>
+        <div class="def-box">
+          <dt>Remainder Theorem</dt>
+          <dd>When f(x) is divided by (x − a), the remainder is f(a).</dd>
+        </div>
+      </div>
+
+      <h3>Algebraic Division</h3>
+      <p>To divide a polynomial f(x) by a linear or quadratic divisor, use either long division or compare coefficients. The result is expressed as:</p>
+      <div class="eq-grid">
+        <div class="eq-box full">
+          <div class="eq-label">Division identity</div>
+          <div class="eq-formula">f(x) = q(x) × divisor + remainder</div>
+        </div>
+      </div>
+
+      <h3>Partial Fractions</h3>
+      <p>Express a proper algebraic fraction as a sum of simpler fractions:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Denominator type</th><th>Partial fraction form</th></tr></thead>
+          <tbody>
+            <tr><td>Linear factors: (ax+b)(cx+d)</td><td>A/(ax+b) + B/(cx+d)</td></tr>
+            <tr><td>Repeated factor: (ax+b)²</td><td>A/(ax+b) + B/(ax+b)²</td></tr>
+            <tr><td>Three linear: (ax+b)(cx+d)(ex+f)</td><td>A/(ax+b) + B/(cx+d) + C/(ex+f)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout tip"><strong>Exam tip:</strong> To find constants quickly, use the "cover-up" method — substitute the value of x that makes each factor zero. For repeated factors, you'll still need to compare coefficients for the extra constant.</div>
+
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- SECTION 3: COORDINATE GEOMETRY -->
+    <section class="section" id="s3">
+      <div class="section-number">03</div>
+      <h2>Coordinate Geometry</h2>
+      <p>P2 extends coordinate geometry to parametric equations and more advanced curve work.</p>
+
+      <h3>Parametric Equations</h3>
+      <p>A curve can be described by expressing x and y separately in terms of a parameter t (or θ). For example, x = t², y = 2t describes a parabola.</p>
+      <div class="def-grid">
+        <div class="def-box">
+          <dt>Converting to Cartesian</dt>
+          <dd>Eliminate the parameter by expressing t in terms of x or y from one equation, then substituting into the other.</dd>
+        </div>
+        <div class="def-box">
+          <dt>Finding intersections</dt>
+          <dd>Substitute the parametric equations into the equation of the line or curve and solve for t.</dd>
+        </div>
+      </div>
+
+      <div class="callout star"><strong>Common exam question:</strong> A curve is defined by x = 3t, y = 6/t. Find the Cartesian equation. From x = 3t → t = x/3. Substitute: y = 6/(x/3) = 18/x. So xy = 18.</div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- SECTION 4: SEQUENCES & SERIES -->
+    <section class="section" id="s4">
+      <div class="section-number">04</div>
+      <h2>Sequences &amp; Series</h2>
+      <p>A sequence is an ordered list of terms. A series is the sum of the terms of a sequence. P2 covers arithmetic and geometric sequences and their sums, including convergence of infinite geometric series and the binomial expansion.</p>
+
+      <h3>Arithmetic Sequences &amp; Series</h3>
+      <div class="eq-grid">
+        <div class="eq-box">
+          <div class="eq-label">nth term</div>
+          <div class="eq-formula">uₙ = a + (n − 1)d</div>
+        </div>
+        <div class="eq-box">
+          <div class="eq-label">Sum of n terms</div>
+          <div class="eq-formula">Sₙ = n/2 [2a + (n − 1)d]</div>
+        </div>
+        <div class="eq-box full">
+          <div class="eq-label">Alternative sum</div>
+          <div class="eq-formula">Sₙ = n/2 (a + l) &nbsp;&nbsp;where l = last term</div>
+        </div>
+      </div>
+
+      <h3>Geometric Sequences &amp; Series</h3>
+      <div class="eq-grid">
+        <div class="eq-box">
+          <div class="eq-label">nth term</div>
+          <div class="eq-formula">uₙ = arⁿ⁻¹</div>
+        </div>
+        <div class="eq-box">
+          <div class="eq-label">Sum of n terms</div>
+          <div class="eq-formula">Sₙ = a(1 − rⁿ) / (1 − r) &nbsp;(r ≠ 1)</div>
+        </div>
+        <div class="eq-box full">
+          <div class="eq-label">Sum to infinity (|r| &lt; 1)</div>
+          <div class="eq-formula">S∞ = a / (1 − r)</div>
+        </div>
+      </div>
+
+      <div class="callout warn"><strong>Watch out:</strong> The sum to infinity only exists when |r| &lt; 1 (the series converges). If |r| ≥ 1, the series diverges and has no finite sum. Always state the condition for convergence.</div>
+
+      <h3>Binomial Expansion</h3>
+      <div class="eq-grid">
+        <div class="eq-box full">
+          <div class="eq-label">Binomial theorem (positive integer n)</div>
+          <div class="eq-formula">(a + b)ⁿ = Σ ⁿCᵣ aⁿ⁻ʳ bʳ &nbsp;&nbsp;for r = 0 to n</div>
+        </div>
+        <div class="eq-box full">
+          <div class="eq-label">Binomial coefficient</div>
+          <div class="eq-formula">ⁿCᵣ = n! / [r!(n − r)!]</div>
+        </div>
+      </div>
+
+      <div class="callout tip"><strong>Exam tip:</strong> Use Pascal's triangle for small values of n. For larger n or when only specific terms are needed, use the formula ⁿCᵣ directly. Remember to include powers of both a and b in each term.</div>
+
+      <h3>Sigma Notation &amp; Recurrence Relations</h3>
+      <ul>
+        <li><strong>Sigma notation:</strong> Σ provides a compact way to write a sum. E.g. Σ(r=1 to n) r² means 1² + 2² + ... + n².</li>
+        <li><strong>Recurrence relation:</strong> Defines each term as a function of previous terms. E.g. uₙ₊₁ = 3uₙ − 2 with u₁ = 4.</li>
+      </ul>
+
+      <div class="callout star"><strong>Common exam question:</strong> The 3rd term of a GP is 24 and the 6th term is 192. Find a and r. ar² = 24 and ar⁵ = 192. Dividing: r³ = 8, so r = 2. Then a(4) = 24, so a = 6.</div>
+    </section>
+
+    <!-- Quiz 1 -->
+    <div class="quiz-section" id="q1">
+      <h3>Quiz 1 — Proof, Algebra &amp; Sequences</h3>
+      <div class="quiz-subtitle">10 questions</div>
+      <div class="quiz-container" data-quiz="q1"></div>
+      <div class="quiz-score" data-quiz-score="q1"><div class="score-number"></div><p>out of 10</p><button class="quiz-retry" onclick="resetQuiz('q1')">Try again</button></div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- SECTION 5: EXPONENTIALS & LOGARITHMS -->
+    <section class="section" id="s5">
+      <div class="section-number">05</div>
+      <h2>Exponentials &amp; Logarithms</h2>
+      <p>Logarithms are the inverse of exponentials. If aˣ = b then log_a(b) = x. This section covers the laws of logarithms, solving exponential equations, the natural logarithm, and modelling with exponentials.</p>
+
+      <h3>Laws of Logarithms</h3>
+      <div class="eq-grid">
+        <div class="eq-box">
+          <div class="eq-label">Product rule</div>
+          <div class="eq-formula">log_a(xy) = log_a(x) + log_a(y)</div>
+        </div>
+        <div class="eq-box">
+          <div class="eq-label">Quotient rule</div>
+          <div class="eq-formula">log_a(x/y) = log_a(x) − log_a(y)</div>
+        </div>
+        <div class="eq-box">
+          <div class="eq-label">Power rule</div>
+          <div class="eq-formula">log_a(xⁿ) = n log_a(x)</div>
+        </div>
+        <div class="eq-box">
+          <div class="eq-label">Change of base</div>
+          <div class="eq-formula">log_a(x) = log_b(x) / log_b(a)</div>
+        </div>
+        <div class="eq-box">
+          <div class="eq-label">Special values</div>
+          <div class="eq-formula">log_a(a) = 1 &nbsp;|&nbsp; log_a(1) = 0</div>
+        </div>
+        <div class="eq-box">
+          <div class="eq-label">Inverse relationship</div>
+          <div class="eq-formula">a^(log_a(x)) = x &nbsp;|&nbsp; log_a(aˣ) = x</div>
+        </div>
+      </div>
+
+      <h3>The Natural Logarithm &amp; Exponential</h3>
+      <p>The natural exponential function y = eˣ has base e ≈ 2.718. Its inverse is y = ln x. The key property: ln(eˣ) = x and e^(ln x) = x.</p>
+      <div class="eq-grid">
+        <div class="eq-box">
+          <div class="eq-label">Differentiation</div>
+          <div class="eq-formula">d/dx [eˣ] = eˣ</div>
+        </div>
+        <div class="eq-box">
+          <div class="eq-label">Integration</div>
+          <div class="eq-formula">∫ eˣ dx = eˣ + c</div>
+        </div>
+      </div>
+
+      <h3>Solving Exponential Equations</h3>
+      <ul>
+        <li>To solve aˣ = b: take logarithms of both sides → x = log(b) / log(a).</li>
+        <li>For equations like 2²ˣ − 5(2ˣ) + 6 = 0: substitute y = 2ˣ to get a quadratic in y.</li>
+      </ul>
+
+      <h3>Modelling with Exponentials</h3>
+      <p>Many real-world processes follow exponential models of the form y = Ae<sup>kt</sup> (growth if k &gt; 0, decay if k &lt; 0) or y = Ab<sup>t</sup>. To find constants from data, take logarithms to reduce to a linear relationship:</p>
+      <div class="eq-grid">
+        <div class="eq-box full">
+          <div class="eq-label">Reducing y = axⁿ to linear form</div>
+          <div class="eq-formula">log y = n log x + log a &nbsp;→&nbsp; plot log y against log x (gradient n, intercept log a)</div>
+        </div>
+        <div class="eq-box full">
+          <div class="eq-label">Reducing y = abˣ to linear form</div>
+          <div class="eq-formula">log y = x log b + log a &nbsp;→&nbsp; plot log y against x (gradient log b, intercept log a)</div>
+        </div>
+      </div>
+
+      <div class="callout star"><strong>Common exam question:</strong> The population of bacteria is modelled by P = 200e<sup>0.03t</sup>. Find when P = 1000. 1000 = 200e<sup>0.03t</sup> → e<sup>0.03t</sup> = 5 → 0.03t = ln 5 → t = ln 5 / 0.03 ≈ 53.6.</div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- SECTION 6: TRIGONOMETRY -->
+    <section class="section" id="s6">
+      <div class="section-number">06</div>
+      <h2>Trigonometry</h2>
+      <p>P2 trigonometry builds on P1 with compound angle formulae, double angle formulae, and the R-formula for combining sine and cosine functions.</p>
+
+      <h3>Compound Angle Formulae</h3>
+      <div class="eq-grid">
+        <div class="eq-box">
+          <div class="eq-label">sin(A ± B)</div>
+          <div class="eq-formula">sin A cos B ± cos A sin B</div>
+        </div>
+        <div class="eq-box">
+          <div class="eq-label">cos(A ± B)</div>
+          <div class="eq-formula">cos A cos B ∓ sin A sin B</div>
+        </div>
+        <div class="eq-box full">
+          <div class="eq-label">tan(A ± B)</div>
+          <div class="eq-formula">(tan A ± tan B) / (1 ∓ tan A tan B)</div>
+        </div>
+      </div>
+
+      <h3>Double Angle Formulae</h3>
+      <div class="eq-grid">
+        <div class="eq-box">
+          <div class="eq-label">sin 2A</div>
+          <div class="eq-formula">2 sin A cos A</div>
+        </div>
+        <div class="eq-box">
+          <div class="eq-label">cos 2A (three forms)</div>
+          <div class="eq-formula">cos²A − sin²A = 2cos²A − 1 = 1 − 2sin²A</div>
+        </div>
+        <div class="eq-box">
+          <div class="eq-label">tan 2A</div>
+          <div class="eq-formula">2 tan A / (1 − tan²A)</div>
+        </div>
+      </div>
+
+      <h3>The R-formula</h3>
+      <p>Expressions of the form a sin θ ± b cos θ can be written as R sin(θ ± α) or R cos(θ ∓ α), where:</p>
+      <div class="eq-grid">
+        <div class="eq-box">
+          <div class="eq-label">R value</div>
+          <div class="eq-formula">R = √(a² + b²)</div>
+        </div>
+        <div class="eq-box">
+          <div class="eq-label">α value</div>
+          <div class="eq-formula">tan α = b/a &nbsp;(0 &lt; α &lt; π/2)</div>
+        </div>
+      </div>
+      <p>The R-formula is used to find maximum/minimum values of the expression and to solve equations of the form a sin θ + b cos θ = c.</p>
+
+      <div class="callout tip"><strong>Exam tip:</strong> When using the R-formula, expand R sin(θ + α) using the compound angle formula and compare coefficients of sin θ and cos θ. The maximum value of R sin(θ + α) is R (when sin(θ + α) = 1).</div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- SECTION 7: DIFFERENTIATION -->
+    <section class="section" id="s7">
+      <div class="section-number">07</div>
+      <h2>Differentiation</h2>
+      <p>P2 extends differentiation to include the chain rule, product rule, quotient rule, and implicit and parametric differentiation.</p>
+
+      <h3>Key Rules</h3>
+      <div class="eq-grid">
+        <div class="eq-box">
+          <div class="eq-label">Chain rule</div>
+          <div class="eq-formula">dy/dx = dy/du × du/dx</div>
+        </div>
+        <div class="eq-box">
+          <div class="eq-label">Product rule</div>
+          <div class="eq-formula">d/dx[uv] = u(dv/dx) + v(du/dx)</div>
+        </div>
+        <div class="eq-box">
+          <div class="eq-label">Quotient rule</div>
+          <div class="eq-formula">d/dx[u/v] = [v(du/dx) − u(dv/dx)] / v²</div>
+        </div>
+      </div>
+
+      <h3>Standard Results</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>y</th><th>dy/dx</th></tr></thead>
+          <tbody>
+            <tr><td>sin x</td><td>cos x</td></tr>
+            <tr><td>cos x</td><td>−sin x</td></tr>
+            <tr><td>tan x</td><td>sec²x</td></tr>
+            <tr><td>eˣ</td><td>eˣ</td></tr>
+            <tr><td>ln x</td><td>1/x</td></tr>
+            <tr><td>e<sup>f(x)</sup></td><td>f'(x) e<sup>f(x)</sup></td></tr>
+            <tr><td>ln[f(x)]</td><td>f'(x) / f(x)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Parametric Differentiation</h3>
+      <div class="eq-grid">
+        <div class="eq-box full">
+          <div class="eq-label">Parametric derivative</div>
+          <div class="eq-formula">dy/dx = (dy/dt) / (dx/dt)</div>
+        </div>
+      </div>
+
+      <h3>Implicit Differentiation</h3>
+      <p>When y is defined implicitly (e.g. x² + y² = 25), differentiate each term with respect to x, applying the chain rule to terms containing y (multiply by dy/dx), then rearrange for dy/dx.</p>
+
+      <div class="callout star"><strong>Common exam question:</strong> Find dy/dx for x² + y² = 25. Differentiate: 2x + 2y(dy/dx) = 0 → dy/dx = −x/y.</div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- SECTION 8: INTEGRATION -->
+    <section class="section" id="s8">
+      <div class="section-number">08</div>
+      <h2>Integration</h2>
+      <p>P2 extends integration to include trigonometric functions, exponentials, logarithms, partial fractions, and integration by substitution.</p>
+
+      <h3>Standard Integrals</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>f(x)</th><th>∫ f(x) dx</th></tr></thead>
+          <tbody>
+            <tr><td>sin x</td><td>−cos x + c</td></tr>
+            <tr><td>cos x</td><td>sin x + c</td></tr>
+            <tr><td>sec²x</td><td>tan x + c</td></tr>
+            <tr><td>eˣ</td><td>eˣ + c</td></tr>
+            <tr><td>1/x</td><td>ln|x| + c</td></tr>
+            <tr><td>e<sup>ax+b</sup></td><td>(1/a)e<sup>ax+b</sup> + c</td></tr>
+            <tr><td>sin(ax + b)</td><td>−(1/a)cos(ax + b) + c</td></tr>
+            <tr><td>cos(ax + b)</td><td>(1/a)sin(ax + b) + c</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Integration by Substitution</h3>
+      <p>Replace a complicated expression with a single variable u. Steps: choose u, find du/dx, replace all x terms and dx, integrate in u, then substitute back.</p>
+
+      <h3>Integration Using Partial Fractions</h3>
+      <p>Split rational functions into partial fractions (Section 02), then integrate each term separately. This often produces logarithmic terms.</p>
+
+      <h3>Integration of Trigonometric Expressions</h3>
+      <p>Use identities to simplify before integrating:</p>
+      <ul>
+        <li>∫ sin²x dx: use cos 2x = 1 − 2sin²x → sin²x = ½(1 − cos 2x)</li>
+        <li>∫ cos²x dx: use cos 2x = 2cos²x − 1 → cos²x = ½(1 + cos 2x)</li>
+        <li>∫ tan²x dx: use tan²x = sec²x − 1</li>
+      </ul>
+
+      <div class="callout tip"><strong>Exam tip:</strong> For substitution questions, you are usually told which substitution to use. Write du/dx clearly, change the limits if the integral is definite, and don't forget to convert dx into du.</div>
+    </section>
+
+    <!-- Quiz 2 -->
+    <div class="quiz-section" id="q2">
+      <h3>Quiz 2 — Sequences, Logarithms &amp; Exponentials</h3>
+      <div class="quiz-subtitle">10 questions</div>
+      <div class="quiz-container" data-quiz="q2"></div>
+      <div class="quiz-score" data-quiz-score="q2"><div class="score-number"></div><p>out of 10</p><button class="quiz-retry" onclick="resetQuiz('q2')">Try again</button></div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- Quiz 3 -->
+    <div class="quiz-section" id="q3">
+      <h3>Quiz 3 — Trigonometry &amp; Calculus</h3>
+      <div class="quiz-subtitle">10 questions</div>
+      <div class="quiz-container" data-quiz="q3"></div>
+      <div class="quiz-score" data-quiz-score="q3"><div class="score-number"></div><p>out of 10</p><button class="quiz-retry" onclick="resetQuiz('q3')">Try again</button></div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+const quizData = {
+  q1: [
+    { q: "Disprove: 'n² + n + 1 is always prime for positive integers n.'", options: ["n = 4 gives 21 = 3 × 7", "n = 2 gives 7 (prime, so true)", "n = 1 gives 3 (prime)", "Cannot be disproved"], answer: 0, explanation: "At n = 4: 16 + 4 + 1 = 21 = 3 × 7. One counter-example is sufficient." },
+    { q: "When f(x) = 2x³ − 5x² + x + 2 is divided by (x − 2), the remainder is:", options: ["0", "4", "−4", "2"], answer: 0, explanation: "f(2) = 16 − 20 + 2 + 2 = 0. So (x − 2) is a factor and the remainder is 0." },
+    { q: "Express 3/(x−1)(x+2) in partial fractions.", options: ["1/(x−1) − 1/(x+2)", "1/(x−1) + 1/(x+2)", "3/(x−1) − 3/(x+2)", "2/(x−1) + 1/(x+2)"], answer: 0, explanation: "3/[(x−1)(x+2)] = A/(x−1) + B/(x+2). Cover-up: A = 3/3 = 1, B = 3/(−3) = −1." },
+    { q: "The 10th term of the arithmetic sequence 5, 8, 11, ... is:", options: ["32", "35", "29", "30"], answer: 0, explanation: "a = 5, d = 3. u₁₀ = 5 + 9(3) = 32." },
+    { q: "S₂₀ for the arithmetic series with a = 3, d = 4 is:", options: ["820", "800", "840", "760"], answer: 0, explanation: "S₂₀ = 20/2 [2(3) + 19(4)] = 10[6 + 76] = 10(82) = 820." },
+    { q: "A GP has a = 5, r = 2. The sum of the first 8 terms is:", options: ["1275", "1280", "1270", "2550"], answer: 0, explanation: "S₈ = 5(2⁸ − 1)/(2 − 1) = 5(255) = 1275." },
+    { q: "For the GP with a = 12, r = ⅓, find S∞.", options: ["18", "36", "12", "6"], answer: 0, explanation: "S∞ = a/(1−r) = 12/(1 − ⅓) = 12/(⅔) = 18." },
+    { q: "The coefficient of x³ in (1 + 2x)⁵ is:", options: ["80", "40", "10", "160"], answer: 0, explanation: "⁵C₃ × 1² × (2x)³ = 10 × 8x³ = 80x³. Coefficient is 80." },
+    { q: "A recurrence relation is defined by u₁ = 3, uₙ₊₁ = 2uₙ − 1. Find u₃.", options: ["9", "7", "5", "11"], answer: 0, explanation: "u₂ = 2(3) − 1 = 5. u₃ = 2(5) − 1 = 9." },
+    { q: "Disprove: 'n² − n + 11 is prime for all positive integers n.'", options: ["n = 11 gives 121 = 11²", "n = 1 gives 11 (prime)", "n = 5 gives 31 (prime)", "Cannot be disproved"], answer: 0, explanation: "At n = 11: 121 − 11 + 11 = 121 = 11². Not prime — one counter-example is enough." }
+  ],
+  q2: [
+    { q: "log₂(32) =", options: ["5", "4", "6", "3"], answer: 0, explanation: "2⁵ = 32, so log₂(32) = 5." },
+    { q: "Simplify: log₃(9) + log₃(3).", options: ["3", "4", "2", "5"], answer: 0, explanation: "log₃(9) = 2, log₃(3) = 1. Sum = 3. Or: log₃(27) = 3." },
+    { q: "Solve 5ˣ = 20.", options: ["x = ln20/ln5", "x = 20/5", "x = log5(4)", "x = 4"], answer: 0, explanation: "Take ln of both sides: x ln5 = ln20, so x = ln20/ln5 ≈ 1.861." },
+    { q: "If log_a(x) = 3 and log_a(y) = 2, then log_a(x²y) =", options: ["8", "6", "5", "12"], answer: 0, explanation: "log_a(x²y) = 2log_a(x) + log_a(y) = 6 + 2 = 8." },
+    { q: "ln(e⁴) =", options: ["4", "e⁴", "1/4", "4e"], answer: 0, explanation: "ln and e are inverses: ln(e⁴) = 4." },
+    { q: "The equation y = 3e^(2x) models growth. When x = 0, y =", options: ["3", "6", "1", "e²"], answer: 0, explanation: "y = 3e⁰ = 3 × 1 = 3." },
+    { q: "If y = abˣ, a plot of log y against x gives a straight line with gradient:", options: ["log b", "b", "log a", "a"], answer: 0, explanation: "log y = x log b + log a. Gradient = log b, intercept = log a." },
+    { q: "Solve e²ˣ = 10.", options: ["x = ½ ln10", "x = ln5", "x = 2ln10", "x = ln10"], answer: 0, explanation: "2x = ln10, so x = ½ ln10." },
+    { q: "log₁₀(1000) − log₁₀(10) =", options: ["2", "3", "100", "1"], answer: 0, explanation: "log₁₀(1000) = 3, log₁₀(10) = 1. Difference = 2. Or: log₁₀(100) = 2." },
+    { q: "d/dx [ln(3x)] =", options: ["1/x", "3/x", "1/(3x)", "ln3"], answer: 0, explanation: "By chain rule: (1/(3x)) × 3 = 1/x. Or: ln(3x) = ln3 + lnx, so d/dx = 1/x." }
+  ],
+  q3: [
+    { q: "sin(A + B) =", options: ["sinAcosB + cosAsinB", "sinAcosB − cosAsinB", "cosAcosB − sinAsinB", "sinAsinB + cosAcosB"], answer: 0, explanation: "The compound angle formula: sin(A+B) = sinAcosB + cosAsinB." },
+    { q: "cos 2A (in terms of cos A only) =", options: ["2cos²A − 1", "1 − 2cos²A", "cos²A − 1", "2cosA − 1"], answer: 0, explanation: "cos2A = 2cos²A − 1 is the double angle identity in terms of cosA only." },
+    { q: "d/dx [sin x] =", options: ["cos x", "−cos x", "sin x", "−sin x"], answer: 0, explanation: "Standard result: the derivative of sinx is cosx." },
+    { q: "∫ cos x dx =", options: ["sin x + c", "−sin x + c", "cos x + c", "−cos x + c"], answer: 0, explanation: "Standard integral: ∫cosx dx = sinx + c." },
+    { q: "Using the product rule, d/dx [x² sin x] =", options: ["2x sinx + x² cosx", "2x cosx", "x² cosx − 2x sinx", "2x sinx − x² cosx"], answer: 0, explanation: "Product rule: u = x², v = sinx. uv' + vu' = x²cosx + 2x sinx." },
+    { q: "∫ 1/x dx =", options: ["ln|x| + c", "x⁻¹ + c", "−x⁻² + c", "ln x"], answer: 0, explanation: "Standard integral: ∫1/x dx = ln|x| + c. Don't forget the modulus and +c." },
+    { q: "d/dx [e³ˣ] =", options: ["3e³ˣ", "e³ˣ", "3xe³ˣ", "e³ˣ/3"], answer: 0, explanation: "Chain rule: d/dx[e³ˣ] = 3e³ˣ." },
+    { q: "∫ e²ˣ dx =", options: ["½e²ˣ + c", "e²ˣ + c", "2e²ˣ + c", "e²ˣ/x + c"], answer: 0, explanation: "∫e^(ax) dx = (1/a)e^(ax) + c. Here a = 2, so ½e²ˣ + c." },
+    { q: "For x = t², y = t³, dy/dx =", options: ["3t/2", "3t²/2t", "2t/3t²", "t/2"], answer: 0, explanation: "dy/dt = 3t², dx/dt = 2t. dy/dx = 3t²/2t = 3t/2." },
+    { q: "∫ sin²x dx requires use of which identity?", options: ["cos2x = 1 − 2sin²x", "sin²x + cos²x = 1", "sin2x = 2sinxcosx", "tan²x = sec²x − 1"], answer: 0, explanation: "Rearranging: sin²x = ½(1 − cos2x), then integrate term by term." }
+  ]
+};
+
+function initQuizzes(){for(const[quizId,questions]of Object.entries(quizData)){const container=document.querySelector(`.quiz-container[data-quiz="${quizId}"]`);if(!container)continue;container.innerHTML='';questions.forEach((item,i)=>{const div=document.createElement('div');div.className='quiz-question'+(i===0?' active':'');div.dataset.index=i;const indices=item.options.map((_,idx)=>idx);for(let j=indices.length-1;j>0;j--){const k=Math.floor(Math.random()*(j+1));[indices[j],indices[k]]=[indices[k],indices[j]]}const correctShuffled=indices.indexOf(item.answer);let html=`<p>${i+1}. ${item.q}</p>`;indices.forEach((origIdx,newIdx)=>{html+=`<button class="quiz-option" data-correct="${newIdx===correctShuffled}" onclick="handleAnswer(this,'${quizId}',${i})">${item.options[origIdx]}</button>`});html+=`<div class="quiz-feedback"></div><div class="quiz-nav"><span class="quiz-progress">${i+1} / ${questions.length}</span>`;if(i<questions.length-1)html+=`<button onclick="nextQuestion('${quizId}',${i})">Next →</button>`;else html+=`<button onclick="showScore('${quizId}')">See results</button>`;html+=`</div>`;div.innerHTML=html;container.appendChild(div)})}}
+const quizScores={};
+function handleAnswer(btn,quizId,qIndex){const question=btn.parentElement;const buttons=question.querySelectorAll('.quiz-option');const feedback=question.querySelector('.quiz-feedback');const isCorrect=btn.dataset.correct==='true';buttons.forEach(b=>{b.disabled=true;if(b.dataset.correct==='true')b.classList.add('show-correct')});if(isCorrect){btn.classList.add('correct');feedback.textContent='✓ Correct! '+quizData[quizId][qIndex].explanation;feedback.className='quiz-feedback show correct-fb';if(!quizScores[quizId])quizScores[quizId]=0;quizScores[quizId]++}else{btn.classList.add('incorrect');feedback.textContent='✗ '+quizData[quizId][qIndex].explanation;feedback.className='quiz-feedback show incorrect-fb'}}
+function nextQuestion(quizId,currentIndex){const container=document.querySelector(`.quiz-container[data-quiz="${quizId}"]`);const questions=container.querySelectorAll('.quiz-question');questions[currentIndex].classList.remove('active');if(currentIndex+1<questions.length)questions[currentIndex+1].classList.add('active')}
+function showScore(quizId){const container=document.querySelector(`.quiz-container[data-quiz="${quizId}"]`);const scoreDiv=document.querySelector(`[data-quiz-score="${quizId}"]`);container.querySelectorAll('.quiz-question').forEach(q=>q.classList.remove('active'));container.style.display='none';scoreDiv.style.display='block';scoreDiv.querySelector('.score-number').textContent=quizScores[quizId]||0}
+function resetQuiz(quizId){quizScores[quizId]=0;const container=document.querySelector(`.quiz-container[data-quiz="${quizId}"]`);const scoreDiv=document.querySelector(`[data-quiz-score="${quizId}"]`);scoreDiv.style.display='none';container.style.display='block';container.innerHTML='';const questions=quizData[quizId];questions.forEach((item,i)=>{const div=document.createElement('div');div.className='quiz-question'+(i===0?' active':'');const indices=item.options.map((_,idx)=>idx);for(let j=indices.length-1;j>0;j--){const k=Math.floor(Math.random()*(j+1));[indices[j],indices[k]]=[indices[k],indices[j]]}const correctShuffled=indices.indexOf(item.answer);let html=`<p>${i+1}. ${item.q}</p>`;indices.forEach((origIdx,newIdx)=>{html+=`<button class="quiz-option" data-correct="${newIdx===correctShuffled}" onclick="handleAnswer(this,'${quizId}',${i})">${item.options[origIdx]}</button>`});html+=`<div class="quiz-feedback"></div><div class="quiz-nav"><span class="quiz-progress">${i+1} / ${questions.length}</span>`;if(i<questions.length-1)html+=`<button onclick="nextQuestion('${quizId}',${i})">Next →</button>`;else html+=`<button onclick="showScore('${quizId}')">See results</button>`;html+=`</div>`;div.innerHTML=html;container.appendChild(div)})}
+document.querySelectorAll('.sidebar a').forEach(a=>{a.addEventListener('click',()=>{if(window.innerWidth<=900)document.querySelector('.sidebar').classList.remove('open')})});
+initQuizzes();
+</script>
+</body>
+</html>
